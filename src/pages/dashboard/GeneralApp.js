@@ -1,10 +1,16 @@
-import React from "react";
+import React, {Suspense,lazy} from "react";
+
+//dynamic import
+const Nature = lazy(() => import("../../components/Nature"))
+
 
 const GeneralApp = () => {
 
   return (
     <>
-      App
+    <Suspense fallback="......Loading">
+    {/* <Nature /> */}
+    </Suspense>
     </>
   );
 };
