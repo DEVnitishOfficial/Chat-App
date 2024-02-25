@@ -1,18 +1,13 @@
-import React, {Suspense,lazy} from "react";
+import React from 'react'
+import Chats from './Chats'
 
-//dynamic import
-const Nature = lazy(() => import("../../components/Nature"))
-
-
-const GeneralApp = () => {
-
+function GeneralApp() {
   return (
-    <>
-    <Suspense fallback="......Loading">
-    {/* <Nature /> */}
-    </Suspense>
+    <> 
+    {/* {chats} */}
+    <Chats />
     </>
-  );
-};
+  )
+}
 
-export default GeneralApp;
+export default GeneralApp
