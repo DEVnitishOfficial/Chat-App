@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Divider, Typography, Link, IconButton } from "@mui/material";
+import { Box, Divider, Typography, Link, IconButton, Menu, MenuItem } from "@mui/material";
 import { Stack } from "@mui/material";
-import { Download, DownloadSimple, Image } from "phosphor-react";
+import { DotsThreeVertical, DownloadSimple, Image } from "phosphor-react";
+import { Message_options } from "../../data";
 
 const TimeLine = ({ el }) => {
   const theme = useTheme();
@@ -38,9 +39,48 @@ const TextMessage = ({ el }) => {
           {el.message}
         </Typography>
       </Box>
+     {/* threeDotsIcon */}
+     <MessageOptions />
     </Stack>
   );
 };
+
+const MessageOptions = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return(
+<>
+<DotsThreeVertical 
+id="basic-button"
+aria-controls={open ? 'basic-menu' : undefined}
+aria-haspopup="true"
+aria-expanded={open ? 'true' : undefined}
+onClick={handleClick}
+size={20}/>
+<Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Stack spacing={1} px={1}>
+        {Message_options.map((el) => (
+          <MenuItem onClick={() => {}}>{el.title}</MenuItem>
+        ))}
+        </Stack>
+      </Menu>
+</>
+  )
+}
 
 const MediaMessage = ({ el }) => {
   const theme = useTheme();
@@ -70,6 +110,7 @@ const MediaMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -111,6 +152,7 @@ const ReplyMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -169,6 +211,7 @@ const LinkMessage = ({ el }) => {
           </Stack>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -209,6 +252,7 @@ const DocumentMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
