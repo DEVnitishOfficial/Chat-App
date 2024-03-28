@@ -3,6 +3,8 @@ import { Avatar, Badge, Box, Divider, IconButton, Stack, Typography } from '@mui
 import {styled, useTheme} from '@mui/material/styles'
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from 'phosphor-react'
 import React from 'react'
+import { ToggleSideBar } from '../../redux/slices/app'
+import { useDispatch } from 'react-redux'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -33,6 +35,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   }));
 function Header() {
+  const dispatch = useDispatch()
     const theme = useTheme()
   return (
     <Box
@@ -49,7 +52,9 @@ function Header() {
           direction="row"
           sx={{ height: "100%", width: "100%" }}
         >
-          <Stack direction="row" spacing={2}>
+          <Stack onClick={() => {
+            dispatch(ToggleSideBar());
+          }} direction="row" spacing={2}>
             <Box>
               <StyledBadge
                 overlap="circular"
