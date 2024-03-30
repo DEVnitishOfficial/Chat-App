@@ -18,7 +18,7 @@ const TimeLine = ({ el }) => {
   );
 };
 
-const TextMessage = ({ el }) => {
+const TextMessage = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
@@ -40,7 +40,7 @@ const TextMessage = ({ el }) => {
         </Typography>
       </Box>
      {/* threeDotsIcon */}
-     <MessageOptions />
+     {menu &&  <MessageOptions />}
     </Stack>
   );
 };
@@ -82,7 +82,7 @@ size={20}/>
   )
 }
 
-const MediaMessage = ({ el }) => {
+const MediaMessage = ({ el,menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
@@ -110,12 +110,12 @@ const MediaMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
-      <MessageOptions />
+     {menu &&  <MessageOptions /> }
     </Stack>
   );
 };
 
-const ReplyMessage = ({ el }) => {
+const ReplyMessage = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
@@ -152,12 +152,12 @@ const ReplyMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
-      <MessageOptions />
+      {menu &&  <MessageOptions />}
     </Stack>
   );
 };
 
-const LinkMessage = ({ el }) => {
+const LinkMessage = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
@@ -211,12 +211,12 @@ const LinkMessage = ({ el }) => {
           </Stack>
         </Stack>
       </Box>
-      <MessageOptions />
+      {menu &&  <MessageOptions />}
     </Stack>
   );
 };
 
-const DocumentMessage = ({ el }) => {
+const DocumentMessage = ({ el, menu }) => {
   const theme = useTheme();
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
@@ -252,7 +252,7 @@ const DocumentMessage = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
-      <MessageOptions />
+     {menu &&  <MessageOptions />}
     </Stack>
   );
 };
