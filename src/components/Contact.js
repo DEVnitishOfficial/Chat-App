@@ -34,16 +34,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const BlockDialog = ({ open, handleClose }) => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+ const BlockDialog = ({open, handleClose }) => {
   return (
     <Dialog
       open={open}
@@ -52,30 +43,21 @@ export const BlockDialog = ({ open, handleClose }) => {
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{"Block this contact"}</DialogTitle>
+      <DialogTitle>Block this contact</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
-          Are you sure you want to block this contect
+          Are you sure you want to block this contact
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={handleClose}>Agree</Button>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Yes</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export const DeleteDialog = ({ open, handleClose }) => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+ const DeleteDialog = ({ open, handleClose }) => {
   return (
     <Dialog
       open={open}
@@ -84,15 +66,15 @@ export const DeleteDialog = ({ open, handleClose }) => {
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{"Delete this contact"}</DialogTitle>
+      <DialogTitle>Delete this contact</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
           Are you sure you want to delete this contact
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={handleClose}>Agree</Button>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Yes</Button>
       </DialogActions>
     </Dialog>
   );
@@ -107,7 +89,7 @@ const Contact = () => {
   const handleCloseBlock = () => {
     setOpenBlock(false);
   };
-  const handleDeleteBlock = () => {
+  const handleCloseDelete = () => {
     setOpenDelete(false);
   };
   return (
@@ -296,7 +278,7 @@ const Contact = () => {
         <BlockDialog open={openBlock} handleClose={handleCloseBlock} />
       )}
       {openDelete && (
-        <DeleteDialog open={openDelete} handleClose={handleDeleteBlock} />
+        <DeleteDialog open={openDelete} handleClose={handleCloseDelete} />
       )}
     </Box>
   );
