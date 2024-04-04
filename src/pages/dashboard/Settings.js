@@ -18,13 +18,13 @@ import Shortcuts from "../../sections/settings/Shortcuts";
 
 const Settings = () => {
   const theme = useTheme();
-  const [openShortcut, setOpenShortcut] = useState(false)
+  const [openShortcuts, setOpenShortcuts] = useState(false)
 
 const handleOpenShortcuts = () => {
-    setOpenShortcut(true)
+    setOpenShortcuts(true)
 }
 const handleCloseShortcuts = () => {
-    setOpenShortcut(false)
+    setOpenShortcuts(false)
 }
 
 const list = [
@@ -120,14 +120,14 @@ const list = [
 
           {/* List of Options */}
           <Stack spacing={4}>
-            {list.map((el) => (
+            {list.map(({icon,title,key, onclick}) => (
               <>
-                <Stack spacing={2} sx={{ cursor: "pointer" }} onclick={onclick}>
+                <Stack key={key} spacing={2} sx={{ cursor: "pointer" }} onClick={onclick}>
                   <Stack  direction={"row"} spacing={2} alignItems={"center"}>
-                   {el.icon}
-                   <Typography>{el.title}</Typography>
+                   {icon}
+                   <Typography>{title}</Typography>
                   </Stack>
-                  { el.key !== 7 &&  <Divider />}
+                  { key !== 7 &&  <Divider />}
                 </Stack>
               </>
             ))}
@@ -135,8 +135,9 @@ const list = [
         </Stack>
       </Box>
       {/* right panel */}
-    {openShortcut && <Shortcuts open={openShortcut} handleClose={handleCloseShortcuts} /> }
     </Stack>
+    {openShortcuts && <Shortcuts open={openShortcuts} handleClose={handleCloseShortcuts} /> }
+
     
     </>
   );
