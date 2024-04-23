@@ -7,6 +7,7 @@ import { SimpleBarStyle } from '../../components/Scrollbar'
 
 import { CallLogElement } from '../../components/CallElement'
 import { CallLogs } from '../../data'
+import StartCall from '../../sections/main/StartCall'
 
 const Call = () => {
     const theme = useTheme();
@@ -77,6 +78,7 @@ const Call = () => {
         {/* Right part */}
         {/* Todo : reuse the convrersating app here */}
       </Stack>   
+      {openDialog && <StartCall open={openDialog} handleClose={handleCloseDialog}/>}
     </>
   )
 }
