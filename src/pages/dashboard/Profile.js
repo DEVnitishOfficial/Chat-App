@@ -21,13 +21,11 @@ const Profile = () => {
           <Stack p={4} spacing={5}>
             {/* Header */}
 
-            <Stack direction={'row'} alignItems={'center'} spacing={3}>
-               <IconButton>
+            <Stack direction={"row"} alignItems={"center"} spacing={3}>
+              <IconButton>
                 <CaretLeft size={24} color={"#4B4B4B"} />
-               </IconButton>
-               <Typography>
-                Profile
-               </Typography>
+              </IconButton>
+              <Typography>Profile</Typography>
             </Stack>
             {/* Profile form */}
             <ProfileForm />

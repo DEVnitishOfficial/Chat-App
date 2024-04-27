@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormProvider from "../../components/hook-form/FormProvider";
-import { Stack, Alert } from "@mui/material";
+import { Stack, Alert, Button } from "@mui/material";
 import { RHFTextField } from "../../components/hook-form";
 
 const ProfileForm = () => {
@@ -64,12 +64,17 @@ const ProfileForm = () => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
+      <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert>{errors.afterSubmit.message}</Alert>}
 
         <RHFTextField name="name" label="Name" helperText={"This name will be visible to your contact"} />
         
         <RHFTextField multiline rows={4} maxRows={5} name="about" label="about" />
       </Stack> 
+      <Stack direction={'row'} justifyContent={'end'}>
+        <Button  color="primary" size='large' type='submit' variant="outlined" >Save</Button>
+      </Stack>
+      </Stack>
     </FormProvider>
   );
 };

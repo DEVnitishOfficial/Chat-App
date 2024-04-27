@@ -15,8 +15,41 @@ import { faker } from "@faker-js/faker";
 import { Gear } from "phosphor-react";
 import useSettings from "../../hooks/useSettings";
 import AntSwitch from "../../components/AntSwitch";
+import { useNavigate } from "react-router-dom";
+
+const getPath = (index) => {
+  switch (index) {
+    case 0:
+      return "/app";
+    case 1:
+      return "/group";
+    case 2:
+      return "/call";
+    case 3:
+      return "/settings";
+
+    default:
+      break;
+  }
+};
+
+const getMenuPath = (index) => {
+  switch (index) {
+    case 0:
+      return "/profile";
+    case 1:
+      return "/settings";
+    case 2:
+      // TODO : update token and setIsAuthenticated to false
+      return "/auth/login";
+
+    default:
+      break;
+  }
+};
 
 function SideBar() {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const theme = useTheme();
   const { onToggleMode } = useSettings();
@@ -84,6 +117,7 @@ function SideBar() {
                   <IconButton
                     onClick={() => {
                       setSelected(indvEle.index);
+                      navigate(getPath(indvEle.index));
                     }}
                     sx={{
                       width: "max-content",
@@ -123,6 +157,7 @@ function SideBar() {
                         : theme.palette.text.primary,
                   }}
                   onClick={() => {
+                    navigate(getPath(3));
                     setSelected(3);
                   }}
                 >
@@ -160,18 +195,22 @@ function SideBar() {
                 "aria-labelledby": "basic-button",
               }}
               anchorOrigin={{
-                vertical:"bottom",
-                horizontal:"right"
+                vertical: "bottom",
+                horizontal: "right",
               }}
               transformOrigin={{
-                vertical:"bottom",
-                horizontal:"left"
+                vertical: "bottom",
+                horizontal: "left",
               }}
             >
               <Stack spacing={1} px={1}>
-                {Profile_Menu.map((el) => (
-                  <MenuItem onClick={() => {}}>
+                {Profile_Menu.map((el, idx) => (
+                  <MenuItem
+                  >
                     <Stack
+                    onClick={() => {
+                      navigate(getMenuPath(idx));
+                    }}
                       sx={{ width: 100 }}
                       direction="row"
                       alignItems={"center"}
