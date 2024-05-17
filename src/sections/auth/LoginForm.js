@@ -15,8 +15,11 @@ import {
 } from "@mui/material";
 import { RHFTextField } from "../../components/hook-form";
 import { Eye, EyeSlash } from "phosphor-react";
+import { LoginUser } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
+  const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -42,6 +45,9 @@ const LoginForm = () => {
   } = methods;
 
   const onSubmit = async (data) => {
+
+    dispatch(LoginUser(data))
+
     try {
     } catch (error) {
       console.log("error from react from submitting>>", error);
