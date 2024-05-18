@@ -10,8 +10,11 @@ import {
   Button,
 } from "@mui/material";
 import { RHFTextField } from "../../components/hook-form";
+import { useDispatch } from "react-redux";
+import { ForgotPassword } from "../../redux/slices/auth";
 
 const ResetPasswordForm = () => {
+  const dispatch = useDispatch()
 
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
@@ -34,6 +37,8 @@ const ResetPasswordForm = () => {
   } = methods;
 
   const onSubmit = async (data) => {
+    // submit data to backend
+    dispatch(ForgotPassword(data))
     try {
     } catch (error) {
       console.log("error from react from submitting>>", error);

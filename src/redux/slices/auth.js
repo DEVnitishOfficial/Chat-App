@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import axiosInstance from "../../utils/axios";
 
 const initialState = {
@@ -25,13 +24,58 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-console.log("log the form vlaue");
 export function LoginUser(formValues) {
   console.log("formValues", formValues);
   // formValues => {email,password}
   return async (dispatch, getState) => {
     await axiosInstance
       .post("/auth/login", formValues, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          slice.actions.logIn({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function LogoutUser() {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.logOut());
+  };
+}
+
+export function ForgotPassword(formValues) {
+  return async (dispatch, getState) => {
+    await axiosInstance
+      .post("/auth/forgot-password", formValues, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function NewPassword(formValues) {
+  return async (dispatch, getState) => {
+    await axiosInstance
+      .post("/auth/reset-password", formValues, {
         headers: {
           "Content-Type": "application/json",
         },

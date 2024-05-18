@@ -16,6 +16,8 @@ import { Gear } from "phosphor-react";
 import useSettings from "../../hooks/useSettings";
 import AntSwitch from "../../components/AntSwitch";
 import { useNavigate } from "react-router-dom";
+import { LogoutUser } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 const getPath = (index) => {
   switch (index) {
@@ -49,6 +51,7 @@ const getMenuPath = (index) => {
 };
 
 function SideBar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const theme = useTheme();
@@ -205,19 +208,21 @@ function SideBar() {
             >
               <Stack spacing={1} px={1}>
                 {Profile_Menu.map((el, idx) => (
-                  <MenuItem
-                  >
+                  <MenuItem key={idx}>
                     <Stack
-                    onClick={() => {
-                      navigate(getMenuPath(idx));
-                    }}
+                      onClick={() => {
+                        if (idx === 2) {
+                          dispatch(LogoutUser());
+                        } else {
+                          navigate(getMenuPath(idx));
+                        }
+                      }}
                       sx={{ width: 100 }}
                       direction="row"
                       alignItems={"center"}
                       justifyContent={"space-between"}
                     >
-                      {" "}
-                      <span> {el.title} </span> {el.icon}{" "}
+                      <span>{el.title}</span> {el.icon}
                     </Stack>
                   </MenuItem>
                 ))}
