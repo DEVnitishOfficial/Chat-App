@@ -5,12 +5,18 @@ const initialState = {
   isLoggedIn: false,
   token: "",
   isLoading: false,
+  email:"",
+  error:false,
 };
 
 const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    updateIsLoading(state,action){
+      state.error = action.payload.error;
+      state.isLoading = action.payload.isLoading;
+    },
     logIn(state, action) {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.token = action.payload.token;
@@ -19,6 +25,9 @@ const slice = createSlice({
       state.isLoggedIn = false;
       state.token = "";
     },
+    updateRegisterEmail(state,action){
+      state.email = action.payload.email
+    }
   },
 });
 
@@ -91,6 +100,62 @@ export function NewPassword(formValues) {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+}
+
+export function RegisterUser(formValues) {
+  return async (dispatch, getState) => {
+    await axiosInstance
+      .post(
+        "/auth/register",
+        { ...formValues },
+        {
+          headers: {
+            "content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("response", response);
+        dispatch(slice.actions.updateRegisterEmail({email:formValues.email}))
+        dispatch(slice.actions.updateIsLoading({error:false,isLoading:false}))
+      })
+      .catch((error) => {
+        console.log("error", error);
+        dispatch(slice.actions.updateIsLoading({error:true, isLoading:false}))
+      })
+      .finally(() => {
+        console.log('getstate>>>',getState.auth)
+        if(!getState.auth.error){
+          window.location.href = "/auth/verify-email";
+        }
+        // window.location.href = "/auth/verify-email";
+      });
+  };
+}
+
+export function VerifyEmail(formValues) {
+  return async (dispatch, getState) => {
+    await axiosInstance
+      .post(
+        "/auth/verify",
+        ...formValues,
+        {
+          headers: {
+            "content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("response", response);
+        dispatch(slice.actions.logIn({
+          isLoggedIn:true,
+          token:response.data.token
+        }))
+      })
+      .catch((error) => {
+        console.log("error", error);
       });
   };
 }
