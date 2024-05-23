@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axios";
+import { showSnackbar } from "./app";
 
 const initialState = {
   isLoggedIn: false,
   token: "",
   isLoading: false,
-  email:"",
-  error:false,
+  email: "",
+  error: false,
 };
 
 const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateIsLoading(state,action){
+    updateIsLoading(state, action) {
       state.error = action.payload.error;
       state.isLoading = action.payload.isLoading;
     },
@@ -25,9 +26,9 @@ const slice = createSlice({
       state.isLoggedIn = false;
       state.token = "";
     },
-    updateRegisterEmail(state,action){
-      state.email = action.payload.email
-    }
+    updateRegisterEmail(state, action) {
+      state.email = action.payload.email;
+    },
   },
 });
 
@@ -118,19 +119,25 @@ export function RegisterUser(formValues) {
       )
       .then((response) => {
         console.log("response", response);
-        dispatch(slice.actions.updateRegisterEmail({email:formValues.email}))
-        dispatch(slice.actions.updateIsLoading({error:false,isLoading:false}))
+        dispatch(
+          slice.actions.updateRegisterEmail({ email: formValues.email })
+        );
+        dispatch(
+          slice.actions.updateIsLoading({ error: false, isLoading: false })
+        );
       })
       .catch((error) => {
         console.log("error", error);
-        dispatch(slice.actions.updateIsLoading({error:true, isLoading:false}))
+        dispatch(
+          slice.actions.updateIsLoading({ error: true, isLoading: false })
+        );
       })
       .finally(() => {
-        console.log('getstate>>>',getState.auth)
-        if(!getState.auth.error){
+        // const state = getState()
+        // console.log('getstate>>>',state)
+        if (!getState().auth.error) {
           window.location.href = "/auth/verify-email";
         }
-        // window.location.href = "/auth/verify-email";
       });
   };
 }
@@ -139,8 +146,8 @@ export function VerifyEmail(formValues) {
   return async (dispatch, getState) => {
     await axiosInstance
       .post(
-        "/auth/verify",
-        ...formValues,
+        "/auth/verify-user",
+        { ...formValues },
         {
           headers: {
             "content-Type": "application/json",
@@ -149,13 +156,17 @@ export function VerifyEmail(formValues) {
       )
       .then((response) => {
         console.log("response", response);
-        dispatch(slice.actions.logIn({
-          isLoggedIn:true,
-          token:response.data.token
-        }))
+        dispatch(
+          slice.actions.logIn({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+        dispatch(showSnackbar({severity:"success", message:response.data.message}))
       })
       .catch((error) => {
         console.log("error", error);
+        dispatch(showSnackbar({severity:"Failure",message:error.message}))
       });
   };
 }
