@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   sideBar: {
@@ -10,6 +11,9 @@ const initialState = {
     message: null,
     severity: null,
   },
+  users:[],
+  friends:[],
+  friendRequests:[]
 };
 
 const slice = createSlice({
@@ -34,6 +38,15 @@ const slice = createSlice({
       state.snackbar.severity = null;
       state.snackbar.message = null;
     },
+    updateUsers(state,action){
+      state.users = action.payload.users
+    },
+    updateFriends(state,action){
+      state.friends = action.payload.friends
+    },
+    updateFriendRequests(state,action){
+      state.friendRequests = action.payload.request
+    }
   },
 });
 
@@ -67,4 +80,50 @@ export function showSnackbar({ severity, message }) {
       dispatch(slice.actions.closeSnackBar());
     }, 4000);
   };
+}
+
+export const fetchUser = () => {
+    return async(dispatch,getState) => {
+      await axios.get("/user/get-users",{
+        headers:{
+          "Content-Type":"application/json",
+          Authorization : `Bearer ${getState().auth.token}`
+        }
+      }).then((response) => {
+        console.log('response',response)
+        dispatch(slice.actions.updateUsers({users:response.data.data}))
+      }).catch((error) => {
+        console.log('error',error)
+      })
+    }
+}
+export const fetchFriends = () => {
+    return async(dispatch,getState) => {
+      await axios.get("/user/get-friends",{
+        headers:{
+          "Content-Type":"application/json",
+          Authorization : `Bearer ${getState().auth.token}`
+        }
+      }).then((response) => {
+        console.log('response',response)
+        dispatch(slice.actions.updateFriends({friends:response.data.data}))
+      }).catch((error) => {
+        console.log('error',error)
+      })
+    }
+}
+export const fetchFriendsRequest = () => {
+    return async(dispatch,getState) => {
+      await axios.get("/user/get-friends-request",{
+        headers:{
+          "Content-Type":"application/json",
+          Authorization : `Bearer ${getState().auth.token}`
+        }
+      }).then((response) => {
+        console.log('response',response)
+        dispatch(slice.actions.updateFriendRequests({request:response.data.data}))
+      }).catch((error) => {
+        console.log('error',error)
+      })
+    }
 }

@@ -20,7 +20,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function App() {
   const dispatch = useDispatch();
-  const { open, message, severity } = useSelector((state) => state.app.snackbar);
+  // const { open, message, severity } = useSelector((state) => state.app.snackbar);
+  const snackbar  = useSelector((state) => state.app.snackbar);
+  console.log('snackbar>>>>',snackbar)
 
   return (
     <>
@@ -31,10 +33,10 @@ function App() {
         </ThemeSettings>
       </ThemeProvider>
 
-      {message && open ? (
+      {snackbar.message && snackbar.open ? (
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          open={open}
+          open={snackbar.open}
           autoHideDuration={4000}
           key={vertical + horizontal}
           onClose={() => {
@@ -45,10 +47,10 @@ function App() {
             onClose={() => {
               dispatch(closeSnackBar());
             }}
-            severity={severity}
+            severity={snackbar.severity}
             sx={{ width: "100%" }}
           >
-            {message}
+            {snackbar.message}
           </Alert>
         </Snackbar>
       ) : (

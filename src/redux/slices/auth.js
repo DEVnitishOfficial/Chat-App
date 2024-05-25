@@ -52,9 +52,11 @@ export function LoginUser(formValues) {
             token: response.data.token,
           })
         );
+        dispatch(showSnackbar({severity:"success",message:response.data.message}))
       })
       .catch((error) => {
         console.log(error);
+        dispatch(showSnackbar({severity:"error",message:error.message}))
       });
   };
 }
@@ -62,6 +64,7 @@ export function LoginUser(formValues) {
 export function LogoutUser() {
   return async (dispatch, getState) => {
     dispatch(slice.actions.logOut());
+    dispatch(showSnackbar({severity:"success",message:"Logout successfully !!"}))
   };
 }
 
@@ -125,12 +128,14 @@ export function RegisterUser(formValues) {
         dispatch(
           slice.actions.updateIsLoading({ error: false, isLoading: false })
         );
+        dispatch(showSnackbar({severity:"success",message:response.data.message}))
       })
       .catch((error) => {
         console.log("error", error);
         dispatch(
           slice.actions.updateIsLoading({ error: true, isLoading: false })
         );
+        dispatch(showSnackbar({severity:"error",message:error.message}))
       })
       .finally(() => {
         // const state = getState()

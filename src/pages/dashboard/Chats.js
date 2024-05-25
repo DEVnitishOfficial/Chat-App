@@ -6,19 +6,28 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ArchiveBox, CircleDashed, MagnifyingGlass } from "phosphor-react";
+import { ArchiveBox, CircleDashed, MagnifyingGlass, User } from "phosphor-react";
 import { useTheme, } from "@mui/material/styles";
-import React from "react";
+import React, { useState } from "react";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search";
 import ChatElement from "../../components/ChatElement";
+import Friend from "../../sections/main/Friend";
 
 const Chats = () => {
-
+    const [openDialog, setOpenDialog] = useState(false)
     const theme = useTheme()
 
+    const handleOpenDialog = () => {
+      setOpenDialog(true)
+    }
+    const handleCloseDialog = () => {
+      setOpenDialog(false)
+    }
+
   return (
+    <>
     <Box
       sx={{
         position: "relative",
@@ -34,9 +43,16 @@ const Chats = () => {
           alignItems={"center"}
         >
           <Typography variant="h5">Chats</Typography>
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+          <IconButton onClick={() => {
+            handleOpenDialog()
+          }}>
+            <User />
+          </IconButton>
           <IconButton>
             <CircleDashed />
           </IconButton>
+          </Stack>
         </Stack>
         <Stack sx={{ width: "100%" }}>
           <Search>
@@ -87,6 +103,9 @@ const Chats = () => {
         </Stack>
       </Stack>
     </Box>
+    {openDialog && <Friend open={openDialog} handleClose={handleCloseDialog} />}
+    </>
+    
   );
 };
 
