@@ -2,17 +2,24 @@ import { faker } from "@faker-js/faker";
 import { Avatar, Badge, Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import StyledBadge from "./StyledBadge";
-
-
+import { useDispatch } from "react-redux";
+import { selectConversationMethod } from "../redux/slices/app";
 
 const ChatElement = ({ id, name, img, msg, time, unread, pinned, online }) => {
-    const theme = useTheme()
+  const theme = useTheme();
+  const dispatch = useDispatch();
   return (
     <Box
+      onClick={() => {
+        dispatch(selectConversationMethod({ room_id: id }));
+      }}
       sx={{
         width: "100%",
         borderRadius: 1,
-        backgroundColor: theme.palette.mode === "light" ? "#fff" : theme.palette.background.default,
+        backgroundColor:
+          theme.palette.mode === "light"
+            ? "#fff"
+            : theme.palette.background.default,
       }}
       p={2}
     >
@@ -49,4 +56,4 @@ const ChatElement = ({ id, name, img, msg, time, unread, pinned, online }) => {
   );
 };
 
-export default ChatElement
+export default ChatElement;
