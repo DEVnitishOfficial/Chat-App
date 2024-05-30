@@ -8,16 +8,29 @@ import {
 } from "@mui/material";
 import { ArchiveBox, CircleDashed, MagnifyingGlass, User } from "phosphor-react";
 import { useTheme, } from "@mui/material/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search";
 import ChatElement from "../../components/ChatElement";
 import Friend from "../../sections/main/Friend";
+import { socket } from "../../socket";
+import { useSelector } from "react-redux";
+
+const user_id = window.localStorage.getItem("user_id")
 
 const Chats = () => {
     const [openDialog, setOpenDialog] = useState(false)
     const theme = useTheme()
+
+    const {conversations} = useSelector((state) => state.conversation.individual_chat);
+
+    useEffect(() => {
+      socket.emit("get_direct_conversation",{user_id},(data) => {
+        // data => list of conversation
+        
+      })
+    },[])
 
     const handleOpenDialog = () => {
       setOpenDialog(true)
@@ -79,7 +92,7 @@ const Chats = () => {
           sx={{ flexGrow: 1, overflow: "scroll", height: "100%" }}
         >
           <SimpleBarStyle timeout={500} clickOnTrack={false}>
-            <Stack spacing={2.4}>
+            {/* <Stack spacing={2.4}>
               <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                 Pinned
               </Typography>
@@ -88,12 +101,12 @@ const Chats = () => {
                   return <ChatElement {...chatInfo} />;
                 }
               )}
-            </Stack>
+            </Stack> */}
             <Stack spacing={2.4}>
               <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                 All Chat
               </Typography>
-              {ChatList.filter((chatInfo) => !chatInfo.pinned).map(
+              {conversations.filter((chatInfo) => !chatInfo.pinned).map(
                 (chatInfo) => {
                   return <ChatElement {...chatInfo} />;
                 }
